@@ -3,7 +3,7 @@ export const productsData = [
         id: 1,
         title: "product 1",
         price: 10.99,
-        imgURL : "./images/product1.webp"
+        imgURL : "./images/product1.png"
     },
 
     {
@@ -17,7 +17,7 @@ export const productsData = [
         id: 3,
         title: "product 3",
         price: 10.99,
-        imgURL : "./images/product3.webp"
+        imgURL : "./images/product3.png"
     },
 
     {
