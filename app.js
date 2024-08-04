@@ -7,6 +7,7 @@ const cartTotalPrice = document.querySelector(".cart-total");
 const cartItems = document.querySelector(".cart-items");
 const cartContent = document.querySelector(".cart-content");
 const clearCart = document.querySelector(".clear-cart");
+const confirmBtn = document.querySelector(".cart-item-confirm");
 
 let inCartProducts = [];
 let allBtns = [];
@@ -15,7 +16,7 @@ import { productsData } from "./product.js";
 cartBtn.addEventListener("click", ShowModal);
 closeModal.addEventListener("click", CloseModal);
 backdrop.addEventListener("click", CloseModal);
-
+confirmBtn.addEventListener("click", CloseModal);
 
 document.addEventListener("DOMContentLoaded", ()=>{
     const products = new Products();
@@ -215,7 +216,7 @@ class Storage{
 function ShowModal(){
     backdrop.style.display = "block";
     cartModal.style.opacity = "1";
-    cartModal.style.top = "20%";
+    cartModal.style.top = "30%";
 }
 
 function CloseModal(){

@@ -155,6 +155,7 @@ body {
 }
 
 .cart {
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -242,9 +243,15 @@ body {
 @media (max-width: 600px) {
   .cart {
     left: 5% !important;
+    right: 5% !important;
     max-width: 50rem;
     width: calc(100vw - 2rem);
-    padding: 0;
+    padding: 15px;
+    width: 90%;
+    max-width: none;
+    height: auto;
+    top: 20%;
+    /* position: fixed; */
   }
 }
 
