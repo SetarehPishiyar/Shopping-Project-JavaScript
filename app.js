@@ -3,6 +3,8 @@ const backdrop = document.querySelector(".backdrop");
 const cartModal = document.querySelector(".cart");
 const closeModal = document.querySelector(".cart-item-confirm");
 const productsDOM = document.querySelector(".products-center");
+const cartTotalPrice = document.querySelector(".cart-total");
+const cartItems = document.querySelector(".cart-items");
 let inCartProducts = [];
 import { productsData } from "./product.js";
 
@@ -56,7 +58,8 @@ class UI{
 
         addToCartBtnArr.forEach(btn => {
             const id = btn.dataset.id;
-            const isInCart = inCartProducts.find(p => {p.id === parseInt(id)});
+            //console.log(inCartProducts);
+            const isInCart = inCartProducts.find(p => p.id === id);
             //console.log(isInCart);
             if(isInCart){
                 btn.innerText = "Added to cart";
@@ -67,11 +70,22 @@ class UI{
                 event.target.innerText = "Added to cart";
                 event.target.disabled = true;
                 const addedProduct = Storage.getProduct(id);
-                inCartProducts = [...inCartProducts, {addedProduct, quantity : 1}];
+                inCartProducts = [...inCartProducts, {...addedProduct, quantity : 1}];
                 Storage.saveInCart(inCartProducts);
+                this.setCartTotal(inCartProducts);
 
             })
         });
+    }
+
+    setCartTotal(cart){
+        let tempCartItemNumber = 0;
+        const cartTotal = cart.reduce((acc, cur) => {
+            tempCartItemNumber += cur.quantity;
+            return acc + (cur.quantity * cur.price);
+        } , 0);
+        cartTotalPrice.innerText = `Total price: ${cartTotal.toFixed(2)}$`;
+        cartItems.innerText = tempCartItemNumber;
     }
 }
 
