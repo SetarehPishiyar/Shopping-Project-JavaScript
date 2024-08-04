@@ -127,6 +127,22 @@ class UI{
         clearCart.addEventListener("click", ()=>{
             this.clearCartItems();
         });
+        cartContent.addEventListener("click", (event)=>{
+            const className = event.target.classList;
+            const id = event.target.dataset.id;
+            if(className.contains("fa-chevron-up")){
+                this.incerementQuantity(event, id);
+                
+            }
+            else if(className.contains("fa-chevron-down")){
+                this.decerementQuantity(event, id);
+            } 
+            else if(className.contains("fa-trash-alt")){
+                this.removeItemFromCart(id);
+                this.removeItemFromDOM(event);
+            } 
+        });
+
     }
 
     removeItemFromCart(id){
@@ -134,6 +150,28 @@ class UI{
         this.setCartTotal(inCartProducts);
         Storage.saveInCart(inCartProducts);
         this.updateButtonText(id);
+    }
+    removeItemFromDOM(event){
+        cartContent.removeChild(event.target.parentElement)
+    }
+
+    incerementQuantity(event, id){
+        const product = inCartProducts.find(item => item.id === Number(id));
+        product.quantity++;
+        this.setCartTotal(inCartProducts);
+        Storage.saveInCart(inCartProducts);
+        event.target.nextElementSibling.innerText = product.quantity;
+        // console.log(product);
+    }
+
+    decerementQuantity(event, id){
+        const product = inCartProducts.find(item => item.id === Number(id));
+        if(product.quantity > 1)
+            product.quantity--;
+        this.setCartTotal(inCartProducts);
+        Storage.saveInCart(inCartProducts);
+        event.target.previousElementSibling.innerText = product.quantity;
+        // console.log(product);
     }
 
     clearCartItems(){
