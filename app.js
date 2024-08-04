@@ -5,6 +5,8 @@ const closeModal = document.querySelector(".cart-item-confirm");
 const productsDOM = document.querySelector(".products-center");
 const cartTotalPrice = document.querySelector(".cart-total");
 const cartItems = document.querySelector(".cart-items");
+const cartContent = document.querySelector(".cart-content");
+
 let inCartProducts = [];
 import { productsData } from "./product.js";
 
@@ -17,6 +19,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     const products = new Products();
     const productsData = products.getProducts();
     const ui = new UI();
+    ui.setUpApp();
     ui.displayProducts(productsData);
     ui.getAddToCartBtns();
     Storage.saveProducts(productsData);
@@ -57,10 +60,10 @@ class UI{
         const addToCartBtnArr = [... addToCartBtn];
 
         addToCartBtnArr.forEach(btn => {
-            const id = btn.dataset.id;
-            //console.log(inCartProducts);
+            const id = Number(btn.dataset.id);
+            inCartProducts = Storage.getCart() || [];
+            // console.log(inCartProducts);
             const isInCart = inCartProducts.find(p => p.id === id);
-            //console.log(isInCart);
             if(isInCart){
                 btn.innerText = "Added to cart";
                 btn.disabled = true;
@@ -69,11 +72,11 @@ class UI{
             btn.addEventListener("click", (event) => {
                 event.target.innerText = "Added to cart";
                 event.target.disabled = true;
-                const addedProduct = Storage.getProduct(id);
-                inCartProducts = [...inCartProducts, {...addedProduct, quantity : 1}];
+                const addedProduct = {...Storage.getProduct(id), quantity:1};
+                inCartProducts = [...inCartProducts, addedProduct];
                 Storage.saveInCart(inCartProducts);
                 this.setCartTotal(inCartProducts);
-
+                this.addProductToCart(addedProduct);
             })
         });
     }
@@ -86,6 +89,33 @@ class UI{
         } , 0);
         cartTotalPrice.innerText = `Total price: ${cartTotal.toFixed(2)}$`;
         cartItems.innerText = tempCartItemNumber;
+    }
+
+    addProductToCart(product){
+        const div = document.createElement("div");
+        div.classList.add("cart-item");
+        div.innerHTML = `
+            <img class="cart-item-img" src="${product.imgURL}"/>
+            <div class="cart-item-desc">
+              <h4>${product.title}</h4>
+              <h5>$ ${product.price}</h5>
+            </div>
+            <div class="cart-item-conteoller">
+              <i class="fas fa-chevron-up"></i>
+              <p>${product.quantity}</p>
+              <i class="fas fa-chevron-down"></i>
+            </div>
+            <i class="fas fa-trash-alt"></i>
+        `;
+        cartContent.appendChild(div);
+    }
+
+    setUpApp(){
+        inCartProducts = Storage.getCart() || [];
+        inCartProducts.forEach(item => {
+            this.addProductToCart(item);
+        });
+        this.setCartTotal(inCartProducts);
     }
 }
 
@@ -101,6 +131,11 @@ class Storage{
 
     static saveInCart(cart){
         localStorage.setItem("cart", JSON.stringify(cart));
+    }
+
+    static getCart(){
+        const _cart = JSON.parse(localStorage.getItem("cart"));
+        return _cart;
     }
 }
 

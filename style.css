@@ -247,3 +247,8 @@ body {
     padding: 0;
   }
 }
+
+.fa-trash-alt{
+  cursor: pointer;
+  color: var(--mainRed);
+}
