@@ -6,8 +6,10 @@ const productsDOM = document.querySelector(".products-center");
 const cartTotalPrice = document.querySelector(".cart-total");
 const cartItems = document.querySelector(".cart-items");
 const cartContent = document.querySelector(".cart-content");
+const clearCart = document.querySelector(".clear-cart");
 
 let inCartProducts = [];
+let allBtns = [];
 import { productsData } from "./product.js";
 
 cartBtn.addEventListener("click", ShowModal);
@@ -22,6 +24,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
     ui.setUpApp();
     ui.displayProducts(productsData);
     ui.getAddToCartBtns();
+    ui.cartController();
     Storage.saveProducts(productsData);
 });
 
@@ -47,7 +50,7 @@ class UI{
           </div>
           <button class="btn add-to-cart" data-id=${p.id}>
             <i class="fas fa-shopping-cart"></i>
-            add to cart
+            Add to cart
           </button>
         </div>`;
         });
@@ -58,6 +61,7 @@ class UI{
     getAddToCartBtns(){
         const addToCartBtn = document.querySelectorAll(".add-to-cart");
         const addToCartBtnArr = [... addToCartBtn];
+        allBtns = addToCartBtnArr;
 
         addToCartBtnArr.forEach(btn => {
             const id = Number(btn.dataset.id);
@@ -68,6 +72,7 @@ class UI{
                 btn.innerText = "Added to cart";
                 btn.disabled = true;
             }
+            
             
             btn.addEventListener("click", (event) => {
                 event.target.innerText = "Added to cart";
@@ -101,11 +106,11 @@ class UI{
               <h5>$ ${product.price}</h5>
             </div>
             <div class="cart-item-conteoller">
-              <i class="fas fa-chevron-up"></i>
+              <i class="fas fa-chevron-up" data-id=${product.id}></i>
               <p>${product.quantity}</p>
-              <i class="fas fa-chevron-down"></i>
+              <i class="fas fa-chevron-down" data-id=${product.id}></i>
             </div>
-            <i class="fas fa-trash-alt"></i>
+            <i class="fas fa-trash-alt" data-id=${product.id}></i>
         `;
         cartContent.appendChild(div);
     }
@@ -116,6 +121,35 @@ class UI{
             this.addProductToCart(item);
         });
         this.setCartTotal(inCartProducts);
+    }
+
+    cartController(){
+        clearCart.addEventListener("click", ()=>{
+            this.clearCartItems();
+        });
+    }
+
+    removeItemFromCart(id){
+        inCartProducts = inCartProducts.filter(item => item.id !== Number(id));
+        this.setCartTotal(inCartProducts);
+        Storage.saveInCart(inCartProducts);
+        this.updateButtonText(id);
+    }
+
+    clearCartItems(){
+        inCartProducts.forEach(item => {
+            this.removeItemFromCart(item.id);
+        });
+        while(cartContent.children.length > 0)
+            cartContent.removeChild(cartContent.children[0]);
+    }
+
+    updateButtonText(id){
+        const removing = allBtns.find(btn => Number(btn.dataset.id) === Number(id));
+        removing.innerHTML = `
+            <i class="fas fa-shopping-cart"></i>
+            Add to cart`;
+        removing.disabled = false;
     }
 }
 
