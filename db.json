@@ -2,94 +2,94 @@
   "items":[
       {
         "id": 1,
-        "title": "ُShampoo product1",
+        "title": "Shampoo product1",
         "class":"shampoo",
         "price": 10.99,
-        "image": "./images/product1.png"
+        "imgURL": "images/product1.png"
       },
       {
         "id": 2,
         "title": "Lighter product1",
         "class":"lighter",
         "price": 14.99,
-        "image": "./images/product2.jpg"
+        "imgURL": "images/product2.jpg"
       },
       {
         "id": 3,
-        "title": "ُShampoo product2",
+        "title": "Shampoo product2",
         "class":"shampoo",
         "price": 7.99,
-        "image": "./images/product3.png"
+        "imgURL": "images/product3.png"
       },
       {
         "id": 4,
         "title": "Perfume product1",
         "class":"perfume",
         "price": 11.99,
-        "image": "./images/product4.jpg"
+        "imgURL": "images/product4.jpg"
       },
       {
         "id": 5,
         "title": "Sneakers product1",
         "class":"sneakers",
         "price": 25.99,
-        "image": "./images/product5.jpg"
+        "imgURL": "./images/product5.jpg"
       },
       {
         "id": 6,
         "title": "Camera product1",
         "class":"camera",
         "price": 29.99,
-        "image": "./images/product6.jpg"
+        "imgURL": "./images/product6.jpg"
       },
       {
         "id": 7,
         "title": "Sneakers product2",
         "class":"sneakers",
         "price": 42.99,
-        "image": "./images/product7.png"
+        "imgURL": "./images/product7.png"
       },
       {
         "id": 8,
         "title": "Sneakers product3",
         "class":"sneakers",
         "price": 24.99,
-        "image": "./images/product8.png"
+        "imgURL": "./images/product8.png"
       },
       {
         "id": 9,
         "title": "Perfume product2",
         "class":"perfume",
         "price": 24.99,
-        "image": "./images/product9.jpg"
+        "imgURL": "./images/product9.jpg"
       }
       ,   {
         "id": 10,
         "title": "Perfume product3",
         "class":"perfume",
         "price": 24.99,
-        "image": "./images/product10.webp"
+        "imgURL": "./images/product10.webp"
       }
       ,   {
         "id": 11,
         "title": "Lighter product2",
         "class":"lighter",
         "price": 24.99,
-        "image": "./images/product11.jpg"
+        "imgURL": "./images/product11.jpg"
       }
       ,   {
         "id": 12,
         "title": "Camera product2",
         "class":"camera",
         "price": 24.99,
-        "image": "./images/product12.jpg"
+        "imgURL": "./images/product12.jpg"
       }
       ,   {
         "id": 13,
         "title": "Camera product3",
         "class":"camera",
         "price": 24.99,
-        "image": "./images/product13.webp"
+        "imgURL": "./images/product13.webp"
       }
     ]
 }
