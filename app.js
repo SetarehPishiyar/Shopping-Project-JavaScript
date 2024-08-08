@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         searchInput.addEventListener("input", (event)=>{
             _filters.searchItem = event.target.value;
-            console.log(_filters.searchItem);
             ui.filterProducts(productsData, _filters);
             ui.displayProducts(filteredProducts);
         });
