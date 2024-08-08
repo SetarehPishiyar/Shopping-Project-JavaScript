@@ -34,22 +34,21 @@ document.addEventListener("DOMContentLoaded", async () => {
         const ui = new UI();
         ui.setUpApp();
         ui.filterProducts(productsData, _filters);
-        ui.displayProducts(filteredProducts);
-        ui.getAddToCartBtns();
-        ui.cartController();
-        Storage.saveProducts(productsData);
+        RefreshPage(ui, productsData, filteredProducts);
 
         searchInput.addEventListener("input", (event)=>{
             _filters.searchItem = event.target.value;
             ui.filterProducts(productsData, _filters);
-            ui.displayProducts(filteredProducts);
+            RefreshPage(ui, productsData, filteredProducts);
         });
 
+
+        RefreshPage(ui, productsData, filteredProducts);
         filterBtns.forEach(btn => {
             btn.addEventListener("click", (event)=>{
                 const ctg = event.target.dataset.filter;
                 ui.filterProductsByCategory(productsData, ctg);
-                ui.displayProducts(filteredProducts);
+                RefreshPage(ui, productsData, filteredProducts);
             });
         });
 
@@ -58,7 +57,12 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
-
+function RefreshPage(ui, productsData, filteredProducts){
+    ui.displayProducts(filteredProducts);
+    ui.getAddToCartBtns();
+    ui.cartController();
+    Storage.saveProducts(productsData);
+}
 
 class UI{
 
