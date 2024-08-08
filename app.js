@@ -9,6 +9,7 @@ const cartContent = document.querySelector(".cart-content");
 const clearCart = document.querySelector(".clear-cart");
 const confirmBtn = document.querySelector(".cart-item-confirm");
 const searchInput = document.querySelector("#search");
+const filterBtns = document.querySelectorAll(".filter-btn");
 
 let inCartProducts = [];
 let allBtns = [];
@@ -44,6 +45,14 @@ document.addEventListener("DOMContentLoaded", async () => {
             ui.displayProducts(filteredProducts);
         });
 
+        filterBtns.forEach(btn => {
+            btn.addEventListener("click", (event)=>{
+                const ctg = event.target.dataset.filter;
+                ui.filterProductsByCategory(productsData, ctg);
+                ui.displayProducts(filteredProducts);
+            });
+        });
+
     } catch (err) {
         console.log(err.message);
     }
@@ -58,6 +67,11 @@ class UI{
             return p.title.toLowerCase().includes(_filters.searchItem.toLowerCase());
         });
     }
+
+    filterProductsByCategory(_products, catergory){
+        filteredProducts = _products.filter((p)=>{ return p.class.toLowerCase() === catergory.toLowerCase(); });
+        if(catergory === "") filteredProducts = productsData;
+    }   
 
     displayProducts(products){
         let result = '';
