@@ -8,35 +8,58 @@ const cartItems = document.querySelector(".cart-items");
 const cartContent = document.querySelector(".cart-content");
 const clearCart = document.querySelector(".clear-cart");
 const confirmBtn = document.querySelector(".cart-item-confirm");
+const searchInput = document.querySelector("#search");
 
 let inCartProducts = [];
 let allBtns = [];
-import { productsData } from "./product.js";
+let productsData = [];
+let filteredProducts = [];
+
+const _filters = {
+    searchItem : "",
+}
 
 cartBtn.addEventListener("click", ShowModal);
 closeModal.addEventListener("click", CloseModal);
 backdrop.addEventListener("click", CloseModal);
 confirmBtn.addEventListener("click", CloseModal);
 
-document.addEventListener("DOMContentLoaded", ()=>{
-    const products = new Products();
-    const productsData = products.getProducts();
-    const ui = new UI();
-    ui.setUpApp();
-    ui.displayProducts(productsData);
-    ui.getAddToCartBtns();
-    ui.cartController();
-    Storage.saveProducts(productsData);
+
+document.addEventListener("DOMContentLoaded", async () => {
+    try {
+        searchInput.value = "";
+        const res = await axios.get("http://localhost:3000/items");
+        productsData = res.data;
+        const ui = new UI();
+        ui.setUpApp();
+        ui.filterProducts(productsData, _filters);
+        ui.displayProducts(filteredProducts);
+        ui.getAddToCartBtns();
+        ui.cartController();
+        Storage.saveProducts(productsData);
+
+        searchInput.addEventListener("input", (event)=>{
+            _filters.searchItem = event.target.value;
+            console.log(_filters.searchItem);
+            ui.filterProducts(productsData, _filters);
+            ui.displayProducts(filteredProducts);
+        });
+
+    } catch (err) {
+        console.log(err.message);
+    }
 });
 
-class Products{
 
-    getProducts(){
-        return productsData;
-    }
-}
 
 class UI{
+
+    filterProducts(_products, _filters){
+        filteredProducts = _products.filter((p)=>{
+            return p.title.toLowerCase().includes(_filters.searchItem.toLowerCase());
+        });
+    }
+
     displayProducts(products){
         let result = '';
         products.forEach(p => {
